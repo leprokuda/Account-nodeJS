@@ -5,8 +5,7 @@ function checkUser() {
     const btnData = document.querySelector('.form__btn')
 
     inputLogin.addEventListener('input', function (e) {
-      const userLogin = inputLogin.value
-      console.log(userLogin)
+      const login_query = inputLogin.value
     })
 
     btnData.addEventListener('click', function (e) {
