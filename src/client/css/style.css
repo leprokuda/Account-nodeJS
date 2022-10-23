@@ -1,0 +1,316 @@
+/* ==================================== GENERAL ==================================*/
+
+@import url('http://fonts.cdnfonts.com/css/museo-sans-cyrl ');
+
+body {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Museo Sans Cyrl', sans-serif;
+  font-style: normal;
+  color: #242424;
+}
+
+body.lock {
+  overflow: hidden;
+}
+
+.btn {
+  width: 135px;
+  height: 42px;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 16px;
+  border: none;
+  border-radius: 5px;
+}
+
+.variant__btn-done {
+  background: #00CD52;
+  color: #FFFFFF;
+}
+
+.variant__btn-use {
+  background: #FECE00;
+}
+
+.container {
+  max-width: 1280px;
+  margin: auto;
+  background: #F5F5F5;
+}
+
+/* ================================== ACC INFO ===================================*/
+
+.account__options {
+  display: flex;
+  padding: 57px 70px 93px 70px;
+}
+
+/* ============ ACC BALANCE BLOCK ==============*/
+
+.account__balance {
+  background: rgba(106, 106, 106, 0.3);
+}
+
+.balance__content {
+  display: flex;
+  align-items: center;
+  padding: 0 38px;
+}
+
+.balance__title {
+  font-weight: 400;
+  font-size: 22px;
+  line-height: 13px;
+  margin: 16px 87px 26px 38px;
+}
+
+.balance__money {
+  font-weight: 600;
+  font-size: 52px;
+  line-height: 43px;
+  margin: 0;
+  padding: 0 9px;
+}
+
+.balance__currency {
+  background-image: url("../img/currency.svg");
+  width: 46px;
+  height: 38px;
+}
+
+/* ================ ACC SALE VARIANTS BLOCK ==================*/
+
+.account__sale {
+  margin-left: 83px;
+  height: 242px;
+  width: 802px;
+  background: rgba(106, 106, 106, 0.3);
+}
+
+.sale__title {
+  display: flex;
+  justify-content: space-between;
+}
+
+.sale__text {
+  font-weight: 600;
+  font-size: 22px;
+  padding: 16px 0 40px 29px;
+  margin: 0;
+}
+
+.sale__instruction {
+  font-weight: 300;
+  font-size: 9px;
+  line-height: 18px;
+  color: #242424;
+  padding: 11px 20px 0 0;
+}
+
+.sale__variants {
+  display: grid;
+  grid-template-columns: repeat(4, 0.5fr);
+}
+
+.sale__variant {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.variant__price {
+  display: flex;
+  align-items: center;
+  padding-bottom: 12px;
+}
+
+.variant__money {
+  padding: 0 3px;
+  margin: 0;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 13px;
+}
+
+.variant__currency {
+  width: 15px;
+  height: 13px;
+  background-image: url("../img/small_currency.svg");
+}
+
+.variant__text {
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 24px;
+}
+
+.variant__product {
+  display: flex;
+  align-items: center;
+}
+
+.variant__product-sale-icon {
+  width: 41px;
+  height: 26px;
+  margin-right: 4px;
+  padding: 9px 0;
+}
+
+/* =========================== FORM ================================ */
+
+.form {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  max-width: 500px;
+  margin: auto;
+}
+
+.form__input {
+  padding-left: 10px;
+  height: 37px;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 16px;
+  width: 250px;
+  border: 1px solid rgba(106, 106, 106, 0.7);
+  border-radius: 5px;
+  background: #F5F5F5;
+}
+
+.form__btn {
+  border: 1px solid rgba(106, 106, 106, 0.7);
+  background: #F5F5F5;
+}
+
+/* =========================== POPUP ================================ */
+
+.account__popup {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  top: 0;
+  left: 0;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.8s ease 0s;
+}
+
+.popup__container {
+  max-height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 185px 401px 177px 401px;
+  transition: all 0.8s ease 0s;
+}
+
+.popup__content {
+  background: #EDEEF0;
+  max-width: 477px;
+  padding: 59px 64px 59px 37px;
+  position: relative;
+  transition: all 0.8s ease 0s;
+  opacity: 0;
+  transform: translate(0px, -100%);
+}
+
+.popup__title {
+  font-weight: 600;
+  font-size: 25px;
+  line-height: 130%;
+  padding-bottom: 22px;
+}
+
+.popup__text {
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 130%;
+}
+
+.popup__text:not(:last-child) {
+  padding-bottom: 26px;
+}
+
+.popup__btn-close {
+  position: absolute;
+  top: 25px;
+  right: 30px;
+  background-image: url("../img/popup-close.svg");
+  width: 17px;
+  height: 17px;
+}
+
+.account__popup.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.account__popup.open .popup__content {
+  transform: perspective(600px) translate(0px, 0%) rotateX(0deg);
+  opacity: 1;
+}
+
+
+/* ================== MEDIA QUERIES =================== */
+
+@media screen and (max-width: 1200px) {
+  .account__balance {
+    height: min-content;
+    padding-bottom: 16px;
+  }
+
+  .account__sale {
+    height: auto;
+  }
+
+  .balance__title {
+    margin: 16px 20px 26px 38px;
+  }
+
+  .sale__variants {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    padding-bottom: 15px;
+  }
+
+  .popup__container {
+    padding: 200px 120px 150px 120px;
+  }
+
+  .popup__content {
+    padding: 20px 17px 20px 17px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .account__options {
+    flex-direction: column;
+  }
+
+  .account__sale {
+    margin: 20px 0 0 0;
+    width: auto;
+  }
+}
+
+@media screen and (max-width: 415px) {
+  .sale__variants {
+    grid-template-columns: repeat(1, 1fr);
+    gap: 3rem;
+    padding-bottom: 15px;
+  }
+
+  .popup__container {
+    padding: 70px 20px 30px 20px;
+  }
+
+  .balance__content {
+    padding: 0 10px;
+    justify-content: center;
+  }
+}
