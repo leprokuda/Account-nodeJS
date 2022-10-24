@@ -18,17 +18,8 @@ app.listen(3000, function() {
   console.log('===================== server started =====================')
 })
 
-// ============================== OPEN SITE ON /user_login/(LOGIN)
-// +++++ В зависимости от введенного логина, рендерится сайт
-app.get('/user_login/:login_query', function(req, res) {
-  const login_query = req.params.login_query
-  account(login_query, res, req)
-})
-
-// ================== RENDERING ===========================
-function account(login_query, res, req) {
-  connection.promise().query(
-    `WITH d AS (SELECT o.user_id, p.description, p.price FROM orders_users o
+// =========================== SQL QUERY ==================================
+let sqlQuery = `WITH d AS (SELECT o.user_id, p.description, p.price FROM orders_users o
                     LEFT JOIN products p ON p.id = o.product_id),
               t as (SELECT u.id, u.login, SUM(c.price) - IFNULL(SUM(d.price), 0) AS 'balance',
                     IF (d.description = "50% на звонки ST", "Уже использовано", "Использовать скидку") AS 'calling',
@@ -93,7 +84,18 @@ function account(login_query, res, req) {
                       SELECT login, balance, calling, speccourse, fifcourse, sfifcourse
                       FROM itog
                       where login NOT like '0' AND login = ?
-        `, login_query)
+        `
+
+// ============================== OPEN SITE ON /user_login/(LOGIN)
+// +++++ В зависимости от введенного логина, рендерится сайт
+app.get('/user_login', function(req, res) {
+  const login_query = req.query.login_query
+  account(login_query, res, req)
+})
+
+// ================== RENDERING LOGIN QUERY ===========================
+function account(login_query, res, req) {
+  connection.promise().query(sqlQuery, login_query)
     .then(function(data) {
       const accounts = data[0]
       res.send(`
@@ -207,9 +209,9 @@ function account(login_query, res, req) {
         
           <section class="user-form">
             <div class="container user-form__container">
-            <form class="form" action="/data/1" method="get">
+            <form class="form" action="/user_login" method="get">
               <label>
-                <input class="form__input" name="userLogin" placeholder="Введите логин" type="text">
+                <input class="form__input" name="login_query" value="${login_query ? login_query : ''}" placeholder="Введите логин" type="text">
               </label>
               <button class="btn form__btn" type="submit">Получить данные</button>
             </form>
