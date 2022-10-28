@@ -5,7 +5,7 @@
 
 Использованы такие библиотеки: <br> ![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB)![MySQL](https://img.shields.io/badge/mysql-%2300f.svg?style=for-the-badge&logo=mysql&logoColor=white)
 
-Сервер запускается с localhost:3000, с базой данных в MyPHPAdmin.
+Сервер запускается с localhost:3000, с базой данных в phpMyAdmin.
 
 Доступ к клиенту производится по ссылке: http://localhost:3000/user_login?login_query=
 (Это страница, не имеющая данных юзера)

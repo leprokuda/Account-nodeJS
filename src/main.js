@@ -1,6 +1,9 @@
 // ================================= ADD LIB ===========================
 const express = require('express')
 const mysql = require('mysql2')
+const bodyParser = require('body-parser')
+const events = require('events')
+const emit = new events.EventEmitter()
 
 // ======================================= CONNECT TO SERVER ============================================
 const connection = mysql.createConnection({
@@ -12,6 +15,7 @@ const connection = mysql.createConnection({
 
 const app = express()
 app.use(express.static(__dirname + '/client'));
+app.use(bodyParser.urlencoded())
 
 // ========================== START SEVER ON 3000 PORT ==========================================
 app.listen(3000, function() {
@@ -19,7 +23,8 @@ app.listen(3000, function() {
 })
 
 // =========================== SQL QUERY ==================================
-let sqlQuery = `WITH d AS (SELECT o.user_id, p.description, p.price FROM orders_users o
+// Запрос всех данных юзера
+const sqlQuery = `WITH d AS (SELECT o.user_id, p.description, p.price FROM orders_users o
                     LEFT JOIN products p ON p.id = o.product_id),
               t as (SELECT u.id, u.login, SUM(c.price) - IFNULL(SUM(d.price), 0) AS 'balance',
                     IF (d.description = "50% на звонки ST", "Уже использовано", "Использовать скидку") AS 'calling',
@@ -85,6 +90,13 @@ let sqlQuery = `WITH d AS (SELECT o.user_id, p.description, p.price FROM orders_
                       FROM itog
                       where login NOT like '0' AND login = ?
         `
+// Покупка товара на определенном аккаунте
+const buyProduct = `INSERT INTO orders_users (product_id, user_id)
+                    with us as (select id as uid from users where login = ?),
+                    pr as (select id as pid from products where description = ?)
+                    select * from pr, us
+                    `
+const description = `SELECT description FROM products`
 
 // ============================== OPEN SITE ON /user_login/(LOGIN)
 // +++++ В зависимости от введенного логина, рендерится сайт
@@ -92,6 +104,10 @@ app.get('/user_login', function(req, res) {
   const login_query = req.query.login_query
   account(login_query, res, req)
 })
+
+
+// formaction="/add-product/${user_id}" formmethod="post"
+//formaction="/add-product/${desc[1]}" formmethod="post"
 
 // ================== RENDERING LOGIN QUERY ===========================
 function account(login_query, res, req) {
@@ -121,7 +137,6 @@ function account(login_query, res, req) {
                 <div class="balance__content">
                   <img class="balance__coin" src="../img/coin.png" alt="ET3 coin">
                   ${accounts.map(account => `<p class="balance__money">${account.balance}</p>`)} 
-                  
                   <div class="balance__currency"></div>
                 </div>
               </div>
@@ -144,9 +159,8 @@ function account(login_query, res, req) {
                     <img src="../img/50%25.svg" alt="" class="variant__product-sale-icon">
                     <small class="variant__text">на звонки ST (x2)</small> 
                   </div>
-                  ${accounts.map(account => `<button class="btn">${account.calling}</button>`)}
+                  ${accounts.map(account => `<button formmethod="post" formaction="/add-product/1" class="btn">${account.calling}</button>`)}
                 </div>
-        
                 <div class="sale__variant">
                   <div class="variant__price">
                     <img class="variant__coin" src="../img/small_coin.png" alt="ET3 coin">
@@ -224,3 +238,9 @@ function account(login_query, res, req) {
     `)
     })
 }
+
+// ========================= ADD PRODUCTS ==============================
+// app.post('/add-product/:login_query', async function (login_query, req, res) {
+//
+// })
+
